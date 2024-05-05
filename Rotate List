@@ -1,0 +1,31 @@
+# Given the head of a linked list, rotate the list to the right by k places.
+
+# Example:
+# Input: head = [1,2,3,4,5], k = 2
+# Output: [4,5,1,2,3]
+
+# Solution:
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+        auto iter = head;
+        auto len = 1;
+        while (iter->next != nullptr) {
+            iter = iter->next; ++len;
+        }
+        // close the list (create a ring)
+        iter->next = head;
+        iter = head;
+        // find one element before the new head
+        for (int i = 0; i < len - (k % len) - 1; ++i) {
+            iter = iter->next;
+        }
+        head = iter->next;
+        // open the list (break the ring)
+        iter->next = nullptr;
+        return head;
+    }
+};
